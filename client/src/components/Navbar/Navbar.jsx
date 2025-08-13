@@ -1,42 +1,42 @@
-import React from 'react'
-import { Container, AppBar, Typography, Grow, Grid, Toolbar, Avatar, Button} from '@material-ui/core';
-import useStyles from './styles.js';
-import {Link, Links} from 'react-router-dom'
+import React from 'react';
+import { AppBar, Avatar, Button, Toolbar, Typography, Box } from '@mui/material';
+import { Link } from 'react-router-dom';
 import moments from '../../images/moments.jpg';
+import { useNavbarStyles } from './styles.js';
 
 const Navbar = () => {
-    const classes = useStyles();
-    const user = null;
+  const user = null;
+  const { appBar, brandContainer, heading, image, toolbar, profile, userName, purple } = useNavbarStyles();
+
   return (
-    <AppBar className={classes.appBar} position="static" color="inherit">
-        <div className={classes.brandContainer}>
-            <Typography  className={classes.heading} variant="h3" align="center">
-              Moments
+    <AppBar sx={appBar} position="static" color="inherit">
+      <Box sx={brandContainer}>
+        <Typography component={Link} to="/" sx={heading} variant="h4" align="center">
+          Moments
+        </Typography>
+        <img style={image} src={moments} alt="moments" height="60" />
+      </Box>
+      <Toolbar sx={toolbar}>
+        {user ? (
+          <Box sx={profile}>
+            <Avatar sx={purple} alt={user.result.name} src={user.result.imageUrl}>
+              {user.result.name.charAt(0)}
+            </Avatar>
+            <Typography sx={userName} variant="h6">
+              {user.result.name}
             </Typography>
-            <img className={classes.image} src={moments} alt="moments" height="60" />
-            
-        </div>
-         <Toolbar className={classes.toolbar}>
-              {
-                user ? (
-                   //if user exists 
-                   <div className={classes.profile}>
-                    <Avatar className={classes.purple} alt = {user.result.name} src={user.result.imageUrl}>{user.result.name.charAt(0)}</Avatar>
-                      <Typography className={classes.userName} variant = 'h6'>
-                          {user.result.name}
-                      </Typography>
-                      <Button variant='contained' className = {classes.logout} color = "secondary">Logout</Button>
-                    </div>
-                )  : (
-                    //if not 
-                    <Button component={Link} color = "primary" to = '/auth'>Sign In</Button>
-                    
-                )
-              }
-            </Toolbar>   
+            <Button variant="contained" sx={{ marginLeft: '10px' }} color="secondary">
+              Logout
+            </Button>
+          </Box>
+        ) : (
+          <Button component={Link} color="primary" to="/auth" variant="contained">
+            Sign In
+          </Button>
+        )}
+      </Toolbar>
     </AppBar>
-  )
-}
+  );
+};
 
-export default Navbar
-
+export default Navbar;

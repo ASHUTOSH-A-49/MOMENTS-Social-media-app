@@ -6,15 +6,16 @@ import { applyMiddleware, compose } from 'redux';
 import { legacy_createStore as createStore } from 'redux';
 import thunk from 'redux-thunk';
 import reducers from './reducers/index.js';
-import { BrowserRouter } from 'react-router-dom';
+import { StyledEngineProvider } from '@mui/material/styles'; // Import this
 import './index.css';
 
 const store = createStore(reducers, compose(applyMiddleware(thunk)));
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <Provider store={store}>
-    <BrowserRouter>
+  
+  <StyledEngineProvider injectFirst>
+    <Provider store={store}>
       <App />
-    </BrowserRouter>
-  </Provider>
+    </Provider>
+  </StyledEngineProvider>
 );

@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import { Container, AppBar, Typography, Grow, Grid } from '@material-ui/core';
-import moments from './images/moments.jpg';
-import Posts from './components/Posts/Posts.jsx';
-import Form from './components/Form/Form.jsx';
-import useStyles from './styles.js';
-import { useDispatch } from 'react-redux';
-import { getPosts } from './actions/posts.js';
+import React from 'react';
+import { Container } from '@mui/material'; // Updated import from @mui/material
 import Navbar from './components/Navbar/Navbar.jsx';
 import Home from './components/Home/Home.jsx';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Auth from './components/Auth/Auth.jsx';
 
 const App = () => {
-  
 
   return (
-    <Container maxWidth="lg">
-      <Navbar/>
-      <Home/>
-    </Container>
+    <BrowserRouter>
+      <Container maxWidth="lg">
+        <Navbar />
+        <Routes>
+          <Route path="/" exact element={<Home />} />
+          <Route path="/auth" exact element={<Auth />} />
+        </Routes>
+      </Container>
+    </BrowserRouter>
   );
 };
 
