@@ -22,14 +22,15 @@ const Home = () => {
           container
           sx={mainContainer}
           justifyContent="space-between"
-          alignItems="stretch"
+          alignItems="flex-start" // Add this prop
           spacing={3}
         >
-        
-          <Grid sx={{ xs: 12, sm: 8 }}>
+          {/* Posts section on the left */}
+          <Grid item xs={12} sm={8} md={8} lg={9}>
             <Posts setCurrentId={setCurrentId} />
           </Grid>
-          <Grid sx={{ xs: 12, sm: 4 }}>
+          {/* Form section on the right */}
+          <Grid item xs={12} sm={4} md={4} lg={3}>
             <Form setCurrentId={setCurrentId} currentId={currentId} />
           </Grid>
         </Grid>

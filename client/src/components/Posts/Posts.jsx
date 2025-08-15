@@ -12,8 +12,7 @@ const Posts = ({ setCurrentId }) => {
     ) : (
       <Grid container spacing={3} alignItems='stretch'>
         {posts.map((post) => (
-          // Using the new MUI v5 Grid syntax.
-          <Grid key={post._id} sx={{ xs: 12, sm: 4, md: 4, lg: 2 }}>
+          <Grid key={post._id} item xs={12} sm={6} md={6} lg={4}>
             <Post post={post} setCurrentId={setCurrentId} />
           </Grid>
         ))}
@@ -23,3 +22,4 @@ const Posts = ({ setCurrentId }) => {
 };
 
 export default Posts;
+
