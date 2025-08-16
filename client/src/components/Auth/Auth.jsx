@@ -8,6 +8,7 @@ import {useNavigate} from 'react-router-dom'
 import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
 import {useDispatch} from 'react-redux'
+import {signin,signup} from '../../actions/auth'
 
 // Access the environment variable securely using Vite's import.meta.env
 const clientId = import.meta.env.VITE_OAUTH_CLIENT_ID;
@@ -17,15 +18,21 @@ const Auth = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
-  const history = useNavigate();
+  const navigate = useNavigate();
+  const initialState = {firstName:'',lastName:'',email:'',password:'',confirmPassword:''}
 
+  const [formData,setFormData] = useState(initialState)
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Form submitted');
+    if(isSignUp){
+      dispatch(signup(formData,navigate))
+    }else{
+      dispatch(signin(formData,navigate))
+    }
   };
 
   const handleChange = (e) => {
-    console.log(e.target.name, e.target.value);
+    setFormData({...formData,[e.target.name]:e.target.value}) 
   };
 
   const handleShowPassword = () => {
@@ -84,7 +91,7 @@ const Auth = () => {
   
 
 //Note : the sub value is unique for every user so we will use it as unique identifier
-const token = decoded?.jti
+ const token = res?.credential;
 
 
 const name = decoded?.name
@@ -106,7 +113,7 @@ const result = {
 try {
   dispatch({type:'AUTH',data:{result,token}})
   //once dispatched redirect to the home for this do following
-  history('/')
+  navigate('/')
 } catch (error) {
   console.log(error)
 }

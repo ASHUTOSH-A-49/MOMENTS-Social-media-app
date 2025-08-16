@@ -4,15 +4,16 @@ const postSchema = mongoose.Schema({
     title:String,
     message:String,
     creator:String,
+    name:String,
     tags: {
         type: [String],
         default: []
     },
 
     selectedFile: String, //convert image to string format to upload 
-    likeCount:{
-        type:Number,
-        default:0
+    likes:{
+        type:[String],
+        default:[]
     },
     createdAt:{
         type:Date,

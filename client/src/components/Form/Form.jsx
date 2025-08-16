@@ -8,8 +8,9 @@ import { useFormStyles } from './styles';
 const Form = ({ currentId, setCurrentId }) => {
   const { paper, form, fileInput, buttonSubmit } = useFormStyles();
   const dispatch = useDispatch();
-  const initialState = { creator: '', title: '', message: '', tags: '', selectedFile: '' };
+  const initialState = { title: '', message: '', tags: '', selectedFile: '' };
   const [postData, setPostData] = useState(initialState);
+  const user = JSON.parse(localStorage.getItem('profile'))
 
   const post = useSelector((state) =>
     currentId ? state.posts.find((p) => p._id === currentId) : null
@@ -38,9 +39,9 @@ const Form = ({ currentId, setCurrentId }) => {
     }
 
     if (currentId) {
-      dispatch(updatePost(currentId, updatedData));
+      dispatch(updatePost(currentId, {...updatedData,name:user?.result?.name}));
     } else {
-      dispatch(createPost(updatedData));
+      dispatch(createPost({...updatedData,name:user?.result?.name}));
     }
 
     clear();
@@ -50,6 +51,17 @@ const Form = ({ currentId, setCurrentId }) => {
     setCurrentId(null);
     setPostData(initialState);
   };
+
+  if(!user?.result?.name){
+    return(
+      <Paper sx={paper}>
+        <Typography variant='h6' align='center'>
+          Please sign in to create moments and interact to others' moments
+        </Typography>
+
+      </Paper>
+    );
+  }
 
   return (
     <Paper sx={paper}>
@@ -64,14 +76,14 @@ const Form = ({ currentId, setCurrentId }) => {
           {currentId ? 'Editing' : 'Creating'} a moment
         </Typography>
 
-        <TextField
+        {/* <TextField
           name="creator"
           variant="outlined"
           label="Creator"
           fullWidth
           value={postData.creator}
           onChange={(e) => setPostData({ ...postData, creator: e.target.value })}
-        />
+        /> */}
         <TextField
           name="title"
           variant="outlined"
