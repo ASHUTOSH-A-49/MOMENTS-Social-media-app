@@ -2,7 +2,7 @@ import React from 'react';
 import { Container } from '@mui/material'; // Updated import from @mui/material
 import Navbar from './components/Navbar/Navbar.jsx';
 import Home from './components/Home/Home.jsx';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes,redirect } from 'react-router-dom';
 import Auth from './components/Auth/Auth.jsx';
 
 const App = () => {

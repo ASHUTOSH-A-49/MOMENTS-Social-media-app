@@ -6,5 +6,10 @@ export const useHomeStyles = () => {
         sm: 'row',
       },
     },
+    pagination: {
+    borderRadius: 4,
+    marginTop: '1rem',
+    padding: '16px',
+  },
   };
 };
