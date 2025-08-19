@@ -7,6 +7,7 @@ export const useNavbarStyles = () => {
   return {
     appBar: {
       borderRadius: 15,
+      // color:"#b1fca2",
       margin: '30px 0',
       display: 'flex',
       flexDirection: 'row',
