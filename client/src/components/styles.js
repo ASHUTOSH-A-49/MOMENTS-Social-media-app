@@ -4,4 +4,5 @@ export const usePaginationStyles = ()=>{
             justifyContent:'space-around'
         }
     }
+    //pagination style
 }
