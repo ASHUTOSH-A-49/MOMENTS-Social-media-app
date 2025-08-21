@@ -1,29 +1,93 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Grow, Grid ,Paper,AppBar,TextField,Button} from '@mui/material';
+import { Container, Grow, Grid, Paper, AppBar, TextField, Button, Box, Chip, Stack } from '@mui/material';
 import Posts from '../Posts/Posts.jsx';
 import Form from '../Form/Form.jsx';
 import { useDispatch } from 'react-redux';
 import { getPosts } from '../../actions/posts.js';
 import { useHomeStyles } from './styles.js';
-import { useNavigate,useLocation } from 'react-router-dom';
-import Chip from '@mui/material/Chip'
-
-
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import Paginate from '../Pagination.jsx';
-import { usePaginationStyles } from '../styles.js';
 
-function UseQuery(){
-  return new URLSearchParams(useLocation().search)
+function UseQuery() {
+  return new URLSearchParams(useLocation().search);
 }
+
+const ChipInput = ({ label, value, onAdd, onDelete, ...other }) => {
+  const [inputValue, setInputValue] = useState('');
+
+  const handleKeyDown = (event) => {
+    if ((event.key === 'Enter' || event.key === ',') && inputValue.trim()) {
+      event.preventDefault();
+      onAdd(inputValue.trim());
+      setInputValue('');
+    }
+  };
+
+  const handleDelete = (chipToDelete) => () => {
+    onDelete(chipToDelete);
+  };
+
+  return (
+    <TextField
+      fullWidth
+      variant="outlined"
+      label={label}
+      value={inputValue}
+      onChange={(e) => setInputValue(e.target.value)}
+      onKeyDown={handleKeyDown}
+      InputProps={{
+        startAdornment: (
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{ flexWrap: 'wrap', marginRight: 1 }}
+          >
+            {value.map((chip, index) => (
+              <Chip
+                key={index}
+                label={chip}
+                onDelete={handleDelete(chip)}
+                variant="outlined"
+                sx={{
+                  margin: '0',
+                  borderColor: 'rgba(0, 0, 0, 0.23)',
+                }}
+              />
+            ))}
+          </Stack>
+        ),
+      }}
+      {...other}
+    />
+  );
+};
+
 
 const Home = () => {
   const dispatch = useDispatch();
   const [currentId, setCurrentId] = useState(null);
-  const { mainContainer,pagination,appBarSearch } = useHomeStyles();
-  const query = UseQuery()
-  const navigate = useNavigate()
-  const searchQuery = query.get('searchQuery')
+  const { mainContainer, pagination, appBarSearch } = useHomeStyles();
+  const query = UseQuery();
+  const navigate = useNavigate();
+  const searchQuery = query.get('searchQuery');
+
+  const [search, setSearch] = useState('');
+  const [tags, setTags] = useState([]);
+  const handleKeyPress = (e) => {
+    if (e.keyCode === 13) {
+      //search post
+    }
+  };
+
+
+  const handleAdd = (tag) => setTags([...tags, tag]);
+  const handleDelete = (tagToDelete) => setTags(tags.filter((tag) => tag !== tagToDelete));
+  const searchPost = ()=>{
+    if(search.trim()){
+      //dispatch search post
+    }
+  }
 
   useEffect(() => {
     dispatch(getPosts());
@@ -40,20 +104,32 @@ const Home = () => {
           spacing={3}
         >
           {/* Posts section on the left */}
-          <Grid  sx={{xs:12,sm:7,md:9,lg:9}}>
+          <Grid item xs={12} sm={7} md={9} lg={9}>
             <Posts setCurrentId={setCurrentId} />
           </Grid>
+
           {/* Form section on the right */}
-          <Grid  sx={{xs:12,sm:5,md:3,lg:3}}>
+          <Grid item xs={12} sm={5} md={3} lg={3}>
             <AppBar sx={appBarSearch} position='static' color='inherit'>
               <TextField
                 name="search"
                 variant='outlined'
                 label="Search Moments"
                 fullWidth
-                value="TEST"
-                onChange={() => {}}
+                onKeyDown={handleKeyPress}
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
               />
+              <ChipInput
+                label="Search Tags"
+                value={tags}
+                onAdd={handleAdd}
+                onDelete={handleDelete}
+                style={{ margin: '10px 0' }}
+              />
+              <Button onClick={searchPost} color='primary'>
+                Search
+              </Button>
             </AppBar>
             <Form setCurrentId={setCurrentId} currentId={currentId} />
             <Paper>
