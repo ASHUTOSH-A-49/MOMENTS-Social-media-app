@@ -4,6 +4,7 @@ export const useHomeStyles = () => {
   const theme = useTheme()
   return {
     mainContainer: {
+      flexWrap: 'nowrap', 
       [theme.breakpoints.down('xs')]: {
       flexDirection: 'column-reverse',
     },

@@ -86,6 +86,8 @@ const Home = () => {
   const searchPost = ()=>{
     if(search.trim()){
       //dispatch search post
+    }else{
+      navigate('/')
     }
   }
 
@@ -95,8 +97,8 @@ const Home = () => {
 
   return (
     <Grow in>
-      <Container maxWidth='lg'>
-        <Grid
+      <Container maxWidth='lg' >
+        <Grid 
           container
           sx={mainContainer}
           justifyContent="space-between"
@@ -104,12 +106,12 @@ const Home = () => {
           spacing={3}
         >
           {/* Posts section on the left */}
-          <Grid item xs={12} sm={7} md={9} lg={9}>
+          <Grid item xs={12} sm={9} md={9} lg={9} >
             <Posts setCurrentId={setCurrentId} />
           </Grid>
 
           {/* Form section on the right */}
-          <Grid item xs={12} sm={5} md={3} lg={3}>
+          <Grid item xs={12} sm={3} md={3} lg={3}>
             <AppBar sx={appBarSearch} position='static' color='inherit'>
               <TextField
                 name="search"
@@ -127,7 +129,7 @@ const Home = () => {
                 onDelete={handleDelete}
                 style={{ margin: '10px 0' }}
               />
-              <Button onClick={searchPost} color='primary'>
+              <Button onClick={searchPost} color='primary' variant='contained'>
                 Search
               </Button>
             </AppBar>
