@@ -16,7 +16,7 @@ export const usePostStyles = () => {
       height: '100%', // Crucial for making the card fill its Grid container
       position: 'relative',
       [theme.breakpoints.up('md')]: { // Apply from 'md' breakpoint and up
-        // maxWidth:350,
+        maxWidth:350,
         
       },
       

@@ -4,10 +4,11 @@ import { useSelector } from 'react-redux';
 import Post from './Post/Post.jsx';
 
 const Posts = ({ setCurrentId }) => {
-  const {posts} = useSelector((state) => state.posts);
+  const {posts,isLoading} = useSelector((state) => state.posts);
   
+  if(!posts.length && !isLoading) return 'No Posts'
   return (
-    !posts?.length ? (
+    isLoading ? (
       <CircularProgress />
     ) : (
       <Grid container spacing={1} alignItems='stretch' >
