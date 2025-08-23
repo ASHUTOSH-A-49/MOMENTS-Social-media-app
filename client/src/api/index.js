@@ -23,6 +23,8 @@ export const updatePost = (id,updatedPost) =>API.patch(`/posts/${id}`,updatedPos
 
 export const deletePost = (id)=>API.delete(`/posts/${id}`)
 
+export const fetchPostsBySearch = (searchQuery) => API.get(`/posts/search?searchQuery=${searchQuery.search || 'none'}&tags=${searchQuery.tags}`)
+
 export const likePost = (id) => API.patch(`/posts/${id}/likePost`)
 
 export const signIn = (formData) => API.post('users/signin',formData)

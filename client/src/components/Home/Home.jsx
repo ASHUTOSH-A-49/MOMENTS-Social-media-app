@@ -3,7 +3,7 @@ import { Container, Grow, Grid, Paper, AppBar, TextField, Button, Box, Chip, Sta
 import Posts from '../Posts/Posts.jsx';
 import Form from '../Form/Form.jsx';
 import { useDispatch } from 'react-redux';
-import { getPosts } from '../../actions/posts.js';
+import { getPosts,getPostsBySearch } from '../../actions/posts.js';
 import { useHomeStyles } from './styles.js';
 import { useNavigate, useLocation } from 'react-router-dom';
 
@@ -84,8 +84,11 @@ const Home = () => {
   const handleAdd = (tag) => setTags([...tags, tag]);
   const handleDelete = (tagToDelete) => setTags(tags.filter((tag) => tag !== tagToDelete));
   const searchPost = ()=>{
-    if(search.trim()){
+    if(search.trim() || tags){
       //dispatch search post
+      dispatch(getPostsBySearch({search,tags: tags.join(',')}));
+      //routing
+      navigate(`/posts/search?searchQuery=${search || 'none'}&tags=${tags.join(',')}`)
     }else{
       navigate('/')
     }

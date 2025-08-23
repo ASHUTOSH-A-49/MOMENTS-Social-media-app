@@ -78,3 +78,20 @@ export const likePost = async (req,res) =>{
     const updatedPost = await PostMessage.findByIdAndUpdate(id,post,{new:true}) 
     res.json(updatedPost);
 }
+
+
+//query and params basoc difference
+//QUERY - /posts?page=1 -> page  = 1
+//PARAMS - /posts/:id  ---> /posts/123 -> id = 123
+export const getPostsBySearch = async(req,res)=>{
+    const{searchQuery,tags} = req.query;
+
+    try {
+        const title = new RegExp(searchQuery,'i'); //i is for ignore case i.e. we search for Test or TEst or test or TEST ..etc
+        const posts = await PostMessage.find({$or:[{title},{tags:{$in:tags.split(',')}}]});
+        res.json({data:posts})
+
+    } catch (error) {
+        
+    }
+}

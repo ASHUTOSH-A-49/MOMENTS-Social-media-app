@@ -4,10 +4,12 @@ export const useHomeStyles = () => {
   const theme = useTheme()
   return {
     mainContainer: {
-      flexWrap: 'nowrap', 
+      [theme.breakpoints.up('md')]: { // Apply from 'md' breakpoint and up
+        flexWrap: 'nowrap',
+      },
       [theme.breakpoints.down('xs')]: {
-      flexDirection: 'column-reverse',
-    },
+        flexDirection: 'column-reverse',
+      },
     },
      appBarSearch: {
     borderRadius: 4,
