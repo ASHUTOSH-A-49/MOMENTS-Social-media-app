@@ -45,8 +45,15 @@ const Post = ({ post, setCurrentId }) => {
         </Typography>
       </Box>
       <Typography sx={title} variant='h5' gutterBottom>{post.title}</Typography>
-      <CardContent>
-        <Typography variant='body2' component='p'>{post.message}</Typography>
+      <CardContent sx={{ minHeight: 100, overflow: 'hidden' }}>
+        <Typography variant='body2' component='p'
+        sx={{ 
+            overflow: 'hidden', 
+            textOverflow: 'ellipsis', 
+            whiteSpace: 'normal', // Allow text to wrap
+            wordBreak: 'break-word' // Prevent long words from overflowing
+          }}
+        >{post.message}</Typography>
       </CardContent>
       <CardActions sx={cardActions}>
         <Button size="small" color="primary" onClick={() => dispatch(likePost(post._id))}>

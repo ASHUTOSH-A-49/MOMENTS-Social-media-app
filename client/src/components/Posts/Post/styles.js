@@ -1,4 +1,6 @@
+import { useTheme } from '@mui/material/styles';
 export const usePostStyles = () => {
+  const theme = useTheme()
   return {
     media: {
       height: 0,
@@ -13,6 +15,11 @@ export const usePostStyles = () => {
       borderRadius: '15px',
       height: '100%', // Crucial for making the card fill its Grid container
       position: 'relative',
+      [theme.breakpoints.up('md')]: { // Apply from 'md' breakpoint and up
+        // maxWidth:350,
+        
+      },
+      
     },
     overlay: {
       position: 'absolute',
@@ -41,5 +48,3 @@ export const usePostStyles = () => {
     },
   };
 };
-
-

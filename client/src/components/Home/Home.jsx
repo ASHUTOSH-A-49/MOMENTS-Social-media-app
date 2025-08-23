@@ -69,6 +69,7 @@ const Home = () => {
   const [currentId, setCurrentId] = useState(null);
   const { mainContainer, pagination, appBarSearch } = useHomeStyles();
   const query = UseQuery();
+  const page = query.get('page') || 1;
   const navigate = useNavigate();
   const searchQuery = query.get('searchQuery');
 
@@ -77,6 +78,7 @@ const Home = () => {
   const handleKeyPress = (e) => {
     if (e.keyCode === 13) {
       //search post
+      searchPost();
     }
   };
 
@@ -94,9 +96,9 @@ const Home = () => {
     }
   }
 
-  useEffect(() => {
-    dispatch(getPosts());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getPosts());
+  // }, [dispatch]);
 
   return (
     <Grow in>
@@ -109,18 +111,18 @@ const Home = () => {
           spacing={3}
         >
           {/* Posts section on the left */}
-          <Grid item xs={12} sm={9} md={9} lg={9} >
+          <Grid item xs={12} sm={8} md={8} lg={9} >
             <Posts setCurrentId={setCurrentId} />
           </Grid>
 
           {/* Form section on the right */}
-          <Grid item xs={12} sm={3} md={3} lg={3}>
+          <Grid item xs={12} sm={4} md={4} lg={3}>
             <AppBar sx={appBarSearch} position='static' color='inherit'>
               <TextField
                 name="search"
                 variant='outlined'
                 label="Search Moments"
-                fullWidth
+                // fullWidth
                 onKeyDown={handleKeyPress}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
@@ -137,9 +139,11 @@ const Home = () => {
               </Button>
             </AppBar>
             <Form setCurrentId={setCurrentId} currentId={currentId} />
+            {(!searchQuery && !tags.length) && (
             <Paper>
-              <Paginate sx={pagination} elevation={6} />
+              <Paginate sx={pagination} page = {page} elevation={6} />
             </Paper>
+            )}
           </Grid>
         </Grid>
       </Container>
