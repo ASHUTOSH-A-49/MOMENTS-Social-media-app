@@ -33,7 +33,7 @@ const Post = ({ post, setCurrentId }) => {
 
 // {
 // ERROR FIXES 
-// Yes, you are correct. The issue is with the navigation path. The navigate function in react-router-dom uses relative paths by default.
+//  The issue is with the navigation path. The navigate function in react-router-dom uses relative paths by default.
 
 // When your application is on the /posts route and the openPost function is called with navigate(posts/${post._id}), it interprets the path as relative to the current location. This incorrectly creates the URL /posts/posts/:id.
 

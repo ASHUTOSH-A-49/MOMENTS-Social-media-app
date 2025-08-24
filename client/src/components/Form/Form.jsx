@@ -4,6 +4,7 @@ import FileBase from 'react-file-base64';
 import { useDispatch, useSelector } from 'react-redux';
 import { createPost, updatePost } from '../../actions/posts.js';
 import { useFormStyles } from './styles';
+import { useNavigate } from 'react-router-dom';
 
 const Form = ({ currentId, setCurrentId }) => {
   const { paper, form, fileInput, buttonSubmit } = useFormStyles();
@@ -11,9 +12,10 @@ const Form = ({ currentId, setCurrentId }) => {
   const initialState = { title: '', message: '', tags: '', selectedFile: '' };
   const [postData, setPostData] = useState(initialState);
   const user = JSON.parse(localStorage.getItem('profile'))
+  const navigate = useNavigate()
 
   const post = useSelector((state) =>
-    currentId ? state.posts.find((p) => p._id === currentId) : null
+    currentId ? state.posts.posts.find((p) => p._id === currentId) : null
   );
 
   useEffect(() => {
@@ -40,8 +42,9 @@ const Form = ({ currentId, setCurrentId }) => {
 
     if (currentId) {
       dispatch(updatePost(currentId, {...updatedData,name:user?.result?.name}));
+      
     } else {
-      dispatch(createPost({...updatedData,name:user?.result?.name}));
+      dispatch(createPost({...updatedData,name:user?.result?.name},navigate));
     }
 
     clear();
