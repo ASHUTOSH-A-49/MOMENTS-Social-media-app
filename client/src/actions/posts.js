@@ -1,5 +1,5 @@
 import * as api from '../api'
-import {CREATE,UPDATE,FETCH_ALL,DELETE,FETCH_BY_SEARCH,START_LOADING,END_LOADING,FETCH_POST} from '../constants/actionTypes'
+import {CREATE,UPDATE,FETCH_ALL,DELETE,FETCH_BY_SEARCH,START_LOADING,END_LOADING,FETCH_POST,COMMENT} from '../constants/actionTypes'
 //Action creators
 
 export const getPost  = (id)=> async(dispatch)=>{
@@ -43,6 +43,7 @@ export const createPost = (post,navigate)=>async(dispatch)=>{
     try {
         dispatch({type:START_LOADING})
         const {data} = await api.createPost(post);
+        console.log(data._id)
         navigate(`/posts/${data._id}`)
         dispatch({type:CREATE,payload:data})
         dispatch({type:END_LOADING})
@@ -82,6 +83,16 @@ export const likePost = (id)=> async(dispatch)=>{
      } catch (error) {
         console.log(error)
      }
+}
+
+export const commentPost = (value,id)=>async(dispatch)=>{
+    try {
+        const {data} = await api.commentPost(value,id)
+        console.log(data) //{comments:[comment]}
+        dispatch({type:COMMENT,payload:data})
+    } catch (error) {
+        
+    }
 }
 
 

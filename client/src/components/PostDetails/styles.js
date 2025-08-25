@@ -6,29 +6,36 @@ export const usePostDetailsStyles = ()=>{
     return{
         media: {
     borderRadius: '20px',
-    objectFit: 'cover',
-    width: '100%',
-    maxHeight: '600px',
+                objectFit: 'contain',
+                maxWidth: '200px',
+                maxHeight: '200px',
 
   },
   card: {
     display: 'flex',
-    width: '100%',
-    [theme.breakpoints.down('sm')]: {
-      flexWrap: 'wrap',
-      flexDirection: 'column',
-    },
+            width: '100%',
+            [theme.breakpoints.down('sm')]: {
+                flexWrap: 'wrap',
+                flexDirection: 'column',
+            },
   },
   section: {
     borderRadius: '20px',
     margin: '10px',
     flex: 1,
+    whiteSpace: 'pre-wrap', 
+  wordWrap: 'break-word', 
   },
   imageSection: {
-    marginLeft: '20px',
-    [theme.breakpoints.down('sm')]: {
-      marginLeft: 0,
-    },
+    display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: '100%',
+              overflow: 'hidden',
+              
+              [theme.breakpoints.down('sm')]: {
+                marginTop: '20px',
+              },
   },
   recommendedPostsStyle: {
     display: 'flex',
