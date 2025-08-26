@@ -6,7 +6,7 @@ import Post from './Post/Post.jsx';
 const Posts = ({ setCurrentId }) => {
   const {posts,isLoading} = useSelector((state) => state.posts);
   
-  if(!posts.length && !isLoading) return 'No Posts'
+  if (!posts || (!posts.length && !isLoading)) return 'No Posts';
   return (
     isLoading ? (
       <CircularProgress />
