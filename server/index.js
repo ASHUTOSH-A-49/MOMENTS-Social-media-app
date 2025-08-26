@@ -5,7 +5,13 @@ import cors from 'cors';
 import postRoutes from './routes/posts.js'
 import userRoutes from './routes/users.js'
 import dotenv from 'dotenv'
-dotenv.config()
+import path from 'path';
+import { fileURLToPath } from 'url';
+dotenv.config();
+
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 
@@ -18,6 +24,20 @@ app.use(cors());
 app.use('/posts',postRoutes) //it means that every route inside postRoutes will be starting with /posts - http://localhost:5000/posts
 app.use('/users',userRoutes)
 console.log('User routes loaded successfully!');
+
+
+// Deployment
+    if (process.env.NODE_ENV === 'production') {
+      app.use(express.static('client/dist'));
+
+      app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'client', 'dist', 'index.html'));
+      });
+    } else {
+      app.get('/', (req, res) => {
+        res.send('Hello to Moments API');
+      });
+    }
 // Store this in .env later
 const CONNECTION_URL = process.env.MONGODB_URI;
 const PORT = process.env.PORT || 5000;
