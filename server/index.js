@@ -18,9 +18,9 @@ app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
-// Corrected routes to handle the '/api' prefix for both development and production
-app.use('/api/posts', postRoutes);
-app.use('/api/users', userRoutes);
+// Corrected routes to handle the paths without the '/api' prefix
+app.use('/posts', postRoutes);
+app.use('/users', userRoutes);
 
 console.log('User routes loaded successfully!');
 
