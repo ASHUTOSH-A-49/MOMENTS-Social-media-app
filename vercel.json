@@ -3,10 +3,7 @@
   "builds": [
     {
       "src": "server/index.js",
-      "use": "@vercel/node",
-      "config": {
-        "buildCommand": "echo 'No build command needed for serverless function'"
-      }
+      "use": "@vercel/node"
     },
     {
       "src": "client/package.json",
@@ -19,12 +16,11 @@
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "server/index.js"
+      "dest": "/server/index.js"
     },
     {
       "src": "/(.*)",
-      "dest": "client/dist/$1"
+      "dest": "/client/dist/$1"
     }
   ]
 }
-    
