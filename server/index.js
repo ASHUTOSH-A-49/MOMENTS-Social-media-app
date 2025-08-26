@@ -9,36 +9,34 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 dotenv.config();
 
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
 
-
-
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
-app.use('/posts',postRoutes) //it means that every route inside postRoutes will be starting with /posts - http://localhost:5000/posts
-app.use('/users',userRoutes)
+// Corrected routes to handle the '/api' prefix for both development and production
+app.use('/api/posts', postRoutes);
+app.use('/api/users', userRoutes);
+
 console.log('User routes loaded successfully!');
 
-
 // Deployment
-    if (process.env.NODE_ENV === 'production') {
-      app.use(express.static('client/dist'));
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/dist'));
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'dist', 'index.html'));
+  });
+} else {
+  // This route is for local development without the '/api' prefix
+  app.get('/', (req, res) => {
+    res.send('Hello to Moments API');
+  });
+}
 
-      app.get('*', (req, res) => {
-        res.sendFile(path.resolve(__dirname, 'client', 'dist', 'index.html'));
-      });
-    } else {
-      app.get('/', (req, res) => {
-        res.send('Hello to Moments API');
-      });
-    }
-// Store this in .env later
 const CONNECTION_URL = process.env.MONGODB_URI;
 const PORT = process.env.PORT || 5000;
 
