@@ -4,6 +4,8 @@ import axios from 'axios';
 const API = axios.create({ baseURL: `${import.meta.env.VITE_SERVER_URL}/api` });
 
 API.interceptors.request.use((req) => {
+    console.log("API: Making request to URL:", req.baseURL + req.url);
+    console.log("API: Request method:", req.method);
     if(localStorage.getItem('profile')){
         req.headers.Authorization = `Bearer ${JSON.parse(localStorage.getItem('profile')).token}`
     }

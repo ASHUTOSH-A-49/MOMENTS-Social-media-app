@@ -5,21 +5,33 @@ import cors from 'cors';
 import postRoutes from './routes/posts.js';
 import userRoutes from './routes/users.js';
 import dotenv from 'dotenv';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import path from 'path'; // Missing import
+import { fileURLToPath } from 'url'; // Missing import
 
-dotenv.config();
+// Add this line to log when the serverless function starts
+console.log("Server: Serverless function starting up.");
 
-// Initialize the Express app
 const app = express();
 
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
+// Log incoming requests before they hit the routes
+app.use((req, res, next) => {
+  console.log(`Server: Incoming request - Method: ${req.method}, URL: ${req.url}`);
+  next();
+});
+
 // Define your API routes
 app.use('/posts', postRoutes);
 app.use('/users', userRoutes);
+
+// Log when the route handlers are being used
+app.use('/users', (req, res, next) => {
+  console.log(`Server: Hitting the /users router with method: ${req.method}`);
+  next();
+});
 
 // In Vercel, the serverless function should not call app.listen()
 // We'll export the app directly.

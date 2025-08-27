@@ -3,13 +3,15 @@ import * as api from '../api'
 
 export const signin = (formData,navigate) => async(dispatch)=>{
     try {
-        //sign in the user
+        console.log("Frontend: Signin action initiated.");
+        console.log("Frontend: Attempting to sign in with data:", formData);
         const {data} = await api.signIn(formData)
         dispatch({type:AUTH,data})
-
+        console.log("Frontend: Signin successful, received data:", data);
         navigate('/')
     } catch (error) {
-        console.log(error)
+        // This is the error we expect to see if the request fails
+        console.log("Frontend: Signin request failed.", error.response.status, error.message);
     }
 }
 
