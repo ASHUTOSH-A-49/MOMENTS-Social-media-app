@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// Update this line to include '/api' at the end of the base URL
-const API = axios.create({ baseURL: `${import.meta.env.VITE_SERVER_URL}/api` });
+// FIX: Ensure there is only one slash separating the base URL and the API path
+const API = axios.create({ baseURL: `${import.meta.env.VITE_SERVER_URL.replace(/\/$/, '')}/api` });
 
 API.interceptors.request.use((req) => {
     console.log("API: Making request to URL:", req.baseURL + req.url);
@@ -9,7 +9,6 @@ API.interceptors.request.use((req) => {
     if(localStorage.getItem('profile')){
         req.headers.Authorization = `Bearer ${JSON.parse(localStorage.getItem('profile')).token}`
     }
-
     return req;
 });
 
