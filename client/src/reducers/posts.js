@@ -15,7 +15,8 @@ export default (state = {isLoading:true,posts:[]}, action) => {
     case DELETE:
         return {...state,posts:state.posts.filter((post)=>post._id!==action.payload)}
     case CREATE:
-      return {...state,posts:[...state, action.payload]}; // old posts and add new
+          // FIX: Correctly add the new post to the posts array
+          return {...state, posts: [...state.posts, action.payload]};
 
     case UPDATE:
       return {...state,posts:state.posts.map((post) =>

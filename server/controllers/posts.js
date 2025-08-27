@@ -41,8 +41,8 @@ export const createPost = async (req, res) => {
 
      try {
         await newPost.save();
-        const allPosts = await PostMessage.find(); // fetch updated list
-        res.status(201).json(allPosts); //  send all posts
+        // const allPosts = await PostMessage.find(); // fetch updated list
+        res.status(201).json(newPost); //  send all posts
     } catch (error) {
         res.status(409).json({ message: error.message });
     }
