@@ -5,6 +5,8 @@ import cors from 'cors';
 import postRoutes from './routes/posts.js';
 import userRoutes from './routes/users.js';
 import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 dotenv.config();
 
@@ -14,9 +16,9 @@ app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
-// Define your API routes
-app.use('/posts', postRoutes);
-app.use('/users', userRoutes);
+// FIX: Add the '/api' prefix to your Express routes
+app.use('/api/posts', postRoutes);
+app.use('/api/users', userRoutes);
 
 const CONNECTION_URL = process.env.MONGODB_URI;
 const PORT = process.env.PORT || 5000;
@@ -36,5 +38,3 @@ const startServer = async () => {
         process.exit(1); 
     }
 };
-
-startServer();
