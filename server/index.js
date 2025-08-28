@@ -21,7 +21,7 @@ app.use('/api/posts', postRoutes);
 app.use('/api/users', userRoutes);
 
 const CONNECTION_URL = process.env.MONGODB_URI;
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5000;
 
 // Connect to the database and start the server
 const startServer = async () => {
