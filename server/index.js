@@ -5,22 +5,8 @@ import cors from 'cors';
 import postRoutes from './routes/posts.js';
 import userRoutes from './routes/users.js';
 import dotenv from 'dotenv';
-import path from 'path';
-import { fileURLToPath } from 'url';
 
-// A single function to connect to the database
-const connectDB = async () => {
-  try {
-    await mongoose.connect(process.env.MONGODB_URI);
-    console.log("✅ Connected to MongoDB");
-  } catch (error) {
-    console.error("❌ MongoDB connection failed:", error.message);
-    process.exit(1); 
-  }
-};
-
-// Connect the database when the serverless function is "warmed up"
-connectDB();
+dotenv.config();
 
 const app = express();
 
@@ -28,38 +14,27 @@ app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
-// Log incoming requests before they hit the routes
-app.use((req, res, next) => {
-  console.log(`Server: Incoming request - Method: ${req.method}, URL: ${req.url}`);
-  next();
-});
-
 // Define your API routes
 app.use('/posts', postRoutes);
 app.use('/users', userRoutes);
 
-// Log when the route handlers are being used
-app.use('/users', (req, res, next) => {
-  console.log(`Server: Hitting the /users router with method: ${req.method}`);
-  next();
-});
+const CONNECTION_URL = process.env.MONGODB_URI;
+const PORT = process.env.PORT || 5000;
 
-// In Vercel, the serverless function should not call app.listen()
-// We'll export the app directly.
-// This is required for Vercel's serverless function to work correctly.
-// The code below handles serving your client files
-// and should only be present in the Vercel deployment.
-if (process.env.NODE_ENV === 'production') {
-    const __filename = fileURLToPath(import.meta.url);
-    const __dirname = path.dirname(__filename);
-    
-    app.use(express.static(path.join(__dirname, 'client/dist')));
-    
-    // Fallback for all other requests to serve the main client HTML file
-    app.get('*', (req, res) => {
-      res.sendFile(path.resolve(__dirname, 'client', 'dist', 'index.html'));
-    });
-}
+// Connect to the database and start the server
+const startServer = async () => {
+    try {
+        await mongoose.connect(CONNECTION_URL);
+        console.log("✅ Connected to MongoDB");
 
-// Export the Express app as the serverless function
-export default app;
+        app.listen(PORT, () => {
+            console.log(`🚀 Server running on PORT ${PORT}`);
+        });
+
+    } catch (error) {
+        console.error("❌ MongoDB connection failed:", error.message);
+        process.exit(1); 
+    }
+};
+
+startServer();
