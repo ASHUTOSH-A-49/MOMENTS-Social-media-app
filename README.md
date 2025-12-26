@@ -1,5 +1,5 @@
 Moments: A MERN Stack Social Media App 📸
-Welcome to Moments, a full-stack social media application built to connect users and share meaningful experiences. This platform allows users to create, edit, and interact with posts in a seamless and intuitive way.
+hey there Welcome to Moments, a full-stack social media application built to connect users and share meaningful experiences. This platform allows users to create, edit, and interact with posts in a seamless and intuitive way.
 
 🌟 Features
 User Authentication: Secure sign-in and sign-up functionality.
